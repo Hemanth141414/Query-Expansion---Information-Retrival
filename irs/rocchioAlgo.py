@@ -19,6 +19,7 @@ class RocchioClass:
         self.__init__()
 
     def calculateDocumentWeight(self, indexers):
+        '''This method is to calculate the document vector weight'''
         #totalWords is same for all the zones as this is total unique words collected.
         totalWords = indexers['content'].totalWords
         totalDocuments = indexers['content'].totalDocuments
@@ -37,16 +38,18 @@ class RocchioClass:
         self.docVector = tmp + self.zone_content_we * docZoneWeights['content']
         
     def calculateQueryWeight(self, index, query):
+        '''This method is to calculate the query weight'''
         self.queryVector = np.zeros(index.totalWords)
-        
         for term in query:
             termIdx = index.getTermIdx(term)
             self.queryVector[termIdx] = math.log(1 + query.count(term), 10) * index.invDocFreq(termIdx)
-            if np.linalg.norm(self.queryVector) != 0:
-                self.queryVector /= np.linalg.norm(self.queryVector)
+            normaliseVal = np.linalg.norm(self.queryVector)
+            if normaliseVal != 0:
+                self.queryVector = self.queryVector/normaliseVal 
 
 
     def rocchioAlgorithm(self, query, indexers, relevant, nonRelevant):
+        '''Rocchio Algorithm implementation. This method will rank the words based on the rocchio weights and we get        the 2 most ranked words and add to query.'''
         self.calculateDocumentWeight(indexers)
         self.calculateQueryWeight(indexers['content'], query)
         self.rocchioVector = self.aplha * self.queryVector
