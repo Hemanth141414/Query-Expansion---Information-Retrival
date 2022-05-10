@@ -1,3 +1,3 @@
-DEVELOPER_KEY = "AIzaSyCdAHnCj3YuInz2-gZMy4h5nJ31lkmMgAw"
-SEARCH_ENGINE_ID = "ea83a80fa93c3a72c"
+DEVELOPER_KEY = "dev_key"
+SEARCH_ENGINE_ID = "engine_id"
 
